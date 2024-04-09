@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
 fun SignInScreen() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var result by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -71,6 +72,15 @@ fun SignInScreen() {
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { /* Handle Done action if needed */ })
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = result,
+                onValueChange = { result = it },
+                label = { Text("Result") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = { /* Handle Done action if needed */ })
