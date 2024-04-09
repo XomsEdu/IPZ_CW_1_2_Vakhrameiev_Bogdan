@@ -85,6 +85,20 @@ fun SignInScreen() {
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = { /* Handle Done action if needed */ })
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    if (email.isNotEmpty() && password.isNotEmpty()) {
+                        result = "Успішна авторизація"
+                    } else if (email.isEmpty()) {
+                        result = "Помилка авторизації: Помилка для поля email"
+                    } else if (password.isEmpty()) {
+                        result = "Помилка авторизації: Помилка для поля password"
+                    }
+                }
+            ) {
+                Text("Sign In")
+            }
         }
     }
 }
