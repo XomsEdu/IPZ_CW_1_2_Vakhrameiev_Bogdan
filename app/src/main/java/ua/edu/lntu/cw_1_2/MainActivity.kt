@@ -16,6 +16,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import ua.edu.lntu.cw_1_2.ui.theme.VakhrameievBVTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,10 +27,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             VakhrameievBVTheme {
-                Surface(
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    SignInScreen()
+                val navController = rememberNavController()
+                NavHost(navController, startDestination = "signIn") {
+                    composable("signIn") {
+                        SignInScreen(navController)
+                    }
+                    composable("signUp") {
+                        SignUpScreen(navController)
+                    }
                 }
             }
         }
@@ -34,7 +42,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
@@ -102,7 +110,7 @@ fun SignInScreen() {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    // Navigate to SignUp screen
+                    navController.navigate("signUp")
                 }
             ) {
                 Text("Sign Up")
@@ -112,7 +120,7 @@ fun SignInScreen() {
 }
 
 @Composable
-fun SignUpScreen(onBackPressed: () -> Unit) {
+fun SignUpScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
@@ -122,7 +130,7 @@ fun SignUpScreen(onBackPressed: () -> Unit) {
             TopAppBar(
                 title = { Text("Sign Up") },
                 navigationIcon = {
-                    IconButton(onClick = onBackPressed) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 }
@@ -181,6 +189,6 @@ fun SignUpScreen(onBackPressed: () -> Unit) {
 @Composable
 fun SignInScreenPreview() {
     VakhrameievBVTheme {
-        SignInScreen()
+        SignInScreen(rememberNavController())
     }
 }
